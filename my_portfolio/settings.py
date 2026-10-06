@@ -109,6 +109,7 @@ WSGI_APPLICATION = "my_portfolio.wsgi.application"
 # SQLITE ONLY
 # ============================================================
 sqlite_name = BASE_DIR / "db.sqlite3"
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -180,8 +181,7 @@ STORAGES = {
     },
     "staticfiles": {
         "BACKEND": (
-            "whitenoise.storage."
-            "CompressedManifestStaticFilesStorage"
+            "whitenoise.storage.CompressedStaticFilesStorage"
         ),
     },
 }

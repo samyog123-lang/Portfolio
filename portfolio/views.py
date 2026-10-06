@@ -39,13 +39,23 @@ def permission_denied(request, exception):
 
 def server_error(request):
     return render(request, 'portfolio/500.html', status=500)
-
-
 def home(request):
     profile = PortfolioProfile.objects.filter(pk=1).first()
-    visitor_count, _ = PortfolioVisitorCount.objects.get_or_create(pk=1)
-    if not request.session.get('portfolio_visit_counted'):
-        PortfolioVisitorCount.objects.filter(pk=visitor_count.pk).update(total_visitors=F('total_visitors') + 1)
+    visitor_count = PortfolioVisitorCount.objects.filter(pk=1).first()
+
+    # Vercel's committed SQLite database is read-only.
+    # Do not write to it in production.
+    if visitor_count is None:
+        visitor_count = PortfolioVisitorCount(total_visitors=0)
+
+    if settings.DEBUG and visitor_count.pk and not request.session.get(
+        'portfolio_visit_counted'
+    ):
+        PortfolioVisitorCount.objects.filter(
+            pk=visitor_count.pk
+        ).update(
+            total_visitors=F('total_visitors') + 1
+        )
         visitor_count.refresh_from_db(fields=['total_visitors'])
         request.session['portfolio_visit_counted'] = True
 
@@ -63,11 +73,17 @@ def home(request):
         'portfolio_location': profile.location if profile else settings.PORTFOLIO_LOCATION,
         'portfolio_education': profile.education if profile else settings.PORTFOLIO_EDUCATION,
         'portfolio_institution': profile.institution if profile else settings.PORTFOLIO_INSTITUTION,
-        'projects': Project.objects.filter(published=True).prefetch_related('gallery'),
-        'skill_groups': _skill_groups(Skill.objects.filter(visible=True)),
+        'projects': Project.objects.filter(
+            published=True
+        ).prefetch_related('gallery'),
+        'skill_groups': _skill_groups(
+            Skill.objects.filter(visible=True)
+        ),
         'journey': JourneyItem.objects.filter(visible=True),
         'posts': BlogPost.objects.filter(published=True)[:3],
-        'resume_available': bool(profile and profile.resume_file) or Path(settings.PORTFOLIO_RESUME).is_file(),
+        'resume_available': bool(
+            profile and profile.resume_file
+        ) or Path(settings.PORTFOLIO_RESUME).is_file(),
     })
 
 
