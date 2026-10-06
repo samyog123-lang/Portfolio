@@ -10,8 +10,8 @@ if str(BASE_DIR) not in sys.path:
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "my_portfolio.settings")
 
-# Vercel's filesystem is not persistent.
-# Use a writable temporary SQLite location.
+# Vercel's filesystem is temporary.
+# Copy the committed SQLite database into /tmp so Django can read it.
 if os.environ.get("VERCEL") == "1":
     source_db = BASE_DIR / "db.sqlite3"
     target_db = Path("/tmp/db.sqlite3")
