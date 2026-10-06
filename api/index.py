@@ -1,25 +1,23 @@
 import os
 import sys
+import shutil
+from pathlib import Path
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-if BASE_DIR not in sys.path:
-    sys.path.insert(0, BASE_DIR)
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "my_portfolio.settings")
 
-import django
 
-django.setup()
-
-# Initialize SQLite database on Vercel
 if os.environ.get("VERCEL") == "1":
-    from django.core.management import call_command
+    source_db = BASE_DIR / "db.sqlite3"
+    target_db = Path("/tmp/db.sqlite3")
 
-    try:
-        call_command("migrate", interactive=False, verbosity=0)
-    except Exception as exc:
-        print(f"Migration warning: {exc}")
+    if source_db.exists() and not target_db.exists():
+        shutil.copy2(source_db, target_db)
+
 
 from django.core.wsgi import get_wsgi_application
 
