@@ -174,6 +174,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "portfolio" / "static",
 ]
+WHITENOISE_USE_FINDERS = True
 
 STORAGES = {
     "default": {
