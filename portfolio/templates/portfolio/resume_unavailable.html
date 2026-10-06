@@ -1,0 +1,3 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Resume not uploaded — {{ profile.name }}{% endblock %}
+{% block content %}<section class="content-section detail-page"><p class="eyebrow">RESUME</p><h1>Resume not uploaded yet.</h1><p class="detail-summary">The PDF resume can be added from Django Admin under Portfolio profile.</p><a class="button button-primary" href="{% url 'home' %}#contact">Contact Samyog ↗</a></section>{% endblock %}

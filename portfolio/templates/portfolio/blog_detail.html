@@ -1,0 +1,4 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}{{ post.title }} — {{ profile.name }}{% endblock %}
+{% block description %}{{ post.excerpt }}{% endblock %}
+{% block content %}<article class="content-section detail-page"><a class="back-link" href="{% url 'blog_list' %}">← JOURNAL</a><p class="eyebrow">{{ post.get_category_display }} · {{ post.reading_time_minutes }} MIN READ</p><h1>{{ post.title }}</h1><p class="detail-summary">{{ post.excerpt }}</p>{% if post.featured_image %}<img class="detail-hero-image" src="{{ post.featured_image.url }}" alt="{{ post.title }}">{% endif %}<div class="blog-content">{{ post.content|linebreaks }}</div></article>{% endblock %}

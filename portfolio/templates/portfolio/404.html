@@ -1,0 +1,3 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}404 — Route not found{% endblock %}
+{% block content %}<section class="content-section detail-page error-page"><p class="eyebrow">HTTP / 404</p><h1>Route not found<span class="red-dot">.</span></h1><p class="detail-summary">This URL doesn’t map to a page in the portfolio.</p><a class="button button-primary" href="{% url 'home' %}">Return home ↗</a></section>{% endblock %}

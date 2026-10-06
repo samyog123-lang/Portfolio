@@ -1,0 +1,55 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101011">
+  <meta name="description" content="{% block description %}{{ profile.bio|default:'Python Django backend developer building useful web applications and APIs.' }}{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block social_title %}{{ profile.name|default:'Samyog Panthee' }} — Python Django Backend Developer{% endblock %}">
+  <meta property="og:description" content="{{ profile.bio|default:'Python Django backend developer building useful web applications and APIs.' }}">
+  {% if profile.profile_photo %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ profile.profile_photo.url }}">{% endif %}
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  <title>{% block title %}{{ profile.name|default:'Samyog Panthee' }} — Python Django Backend Developer{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'portfolio/css/portfolio.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="site-logo" href="{% url 'home' %}" aria-label="{{ profile.name|default:'Samyog Panthee' }} home"><span>SP</span><b>/</b></a>
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span></button>
+    <nav class="main-nav" id="primary-navigation" aria-label="Primary navigation">
+      <a href="{% url 'home' %}#about">About</a>
+      <a href="{% url 'home' %}#skills">Skills</a>
+      <a href="{% url 'home' %}#projects">Projects</a>
+      <a href="{% url 'home' %}#journey">Journey</a>
+      <a href="{% url 'blog_list' %}">Journal</a>
+    </nav>
+    <a class="nav-cta" href="{% url 'home' %}#contact">Contact <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="main-content">{% block content %}{% endblock %}</main>
+
+  <footer class="site-footer">
+    <a class="site-logo" href="{% url 'home' %}" aria-label="Back to top"><span>SP</span><b>/</b></a>
+    <p><strong>{{ profile.name|default:'Samyog Panthee' }}</strong><br>Python Django Backend Developer · Nepal</p>
+    <nav aria-label="Footer navigation"><a href="{% url 'home' %}#projects">Projects</a><a href="{% url 'blog_list' %}">Journal</a><a href="{% url 'home' %}#contact">Contact</a></nav>
+    <span class="footer-copy">© 2026 {{ profile.name|default:'Samyog Panthee' }}</span>
+  </footer>
+
+  <button class="chat-launcher" id="chat-launcher" type="button" aria-label="Open Samyog AI" aria-expanded="false"><span class="chat-launcher-mark">AI</span><span>Ask Samyog AI</span></button>
+  <section class="chat-panel" id="chat-panel" aria-label="Samyog AI portfolio assistant" aria-hidden="true">
+    <div class="chat-head"><div class="chat-avatar" aria-hidden="true">SP</div><div><strong>Samyog AI</strong><span id="chat-mode">Portfolio assistant · verified details</span></div><button class="chat-close" id="chat-close" type="button" aria-label="Close assistant">×</button></div>
+    <div class="chat-messages" id="chat-messages" aria-live="polite"><div class="chat-message assistant-message">Hi, I can answer questions about Samyog’s education, Django projects, skills, and availability.</div><div class="chat-suggestions"><button type="button" data-question="What is Samyog studying?">Education</button><button type="button" data-question="Tell me about the projects">Projects</button></div></div>
+    <form class="chat-form" id="chat-form">{% csrf_token %}<label class="sr-only" for="chat-input">Ask a question</label><input id="chat-input" name="message" type="text" maxlength="1000" placeholder="Ask about Samyog…" autocomplete="off" required><button type="submit" aria-label="Send question">↑</button></form>
+    <p class="chat-footnote">PRIVATE DETAILS ARE NEVER SHARED <span>·</span> RESPONSES MAY USE AI</p>
+  </section>
+  <script type="module" src="{% static 'portfolio/js/portfolio.js' %}"></script>
+</body>
+</html>

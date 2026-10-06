@@ -1,0 +1,127 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+{% block title %}{{ profile.name }} — Python Django Backend Developer{% endblock %}
+{% block description %}{{ profile.name }} is a first-year IT Engineering student at NCIT, focused on Python, Django backend development, APIs, and real web projects.{% endblock %}
+{% block content %}
+<section class="hero" id="home" aria-labelledby="hero-title">
+  <div class="hero-scene" aria-hidden="true"><canvas id="hero-canvas"></canvas><span class="scene-coordinate">BACKEND SYSTEM / 001</span><span class="scene-coordinate scene-coordinate-bottom">PYTHON · DJANGO · DATA</span></div>
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="status-dot"></span> {{ profile.location }} <span class="eyebrow-divider">/</span> OPEN TO INTERNSHIPS & JUNIOR ROLES</p>
+    <p class="hero-pretitle">{{ profile.name|upper }}</p>
+    <p class="hero-role">{{ profile.role }}</p>
+    <h1 id="hero-title">Building reliable<br><span>backends.</span></h1>
+    <p class="hero-description">{{ profile.bio }}</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="#projects">View my projects <span aria-hidden="true">↘</span></a>
+      <a class="button button-outline" href="#contact">Contact me <span aria-hidden="true">↗</span></a>
+      <a class="hero-github" href="{{ profile.github_url }}" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+      {% if resume_available %}<a class="hero-github" href="{% url 'resume_download' %}">Download resume <span aria-hidden="true">↓</span></a>{% endif %}
+    </div>
+    <div class="hero-stack"><span>PYTHON</span><i></i><span>DJANGO</span><i></i><span>DJANGO REST FRAMEWORK</span></div>
+  </div>
+  <div class="hero-display" aria-label="Interactive 3D backend system and Django admin preview">
+    <div class="hero-display-label"><span>LIVE SYSTEM MAP</span><span>01 / 04</span></div>
+    <div class="admin-window">
+      <div class="admin-browserbar"><span class="browser-dots"><i></i><i></i><i></i></span><span>localhost / admin / overview</span><span class="browser-lock">DJANGO</span></div>
+      <div class="admin-topbar"><strong><span class="django-mark">D</span> Project console</strong><span>{{ profile.name }} <span class="admin-user-dot">●</span></span></div>
+      <div class="admin-layout">
+        <aside class="admin-sidebar"><span class="admin-side-label">WORKSPACE</span><a class="is-active" href="#projects"><span>▦</span> Projects</a><a href="#skills"><span>▤</span> Skills</a><a href="#journey"><span>◷</span> Journey</a><a href="#contact"><span>✉</span> Inbox</a><span class="admin-side-label admin-tools-label">STACK</span><span class="admin-stack">Python</span><span class="admin-stack">Django</span><span class="admin-stack">SQLite · PostgreSQL ready</span></aside>
+        <div class="admin-content"><div class="admin-title-row"><div><span class="admin-breadcrumb">PORTFOLIO / OVERVIEW</span><h2>Backend workspace</h2></div><span class="admin-live"><i></i> SYSTEM ONLINE</span></div>
+          <div class="admin-stats"><div><span>VISITORS</span><strong>{{ visitor_count }}</strong><small>Unique sessions</small></div><div><span>FRAMEWORK</span><strong>Django</strong><small>Python backend</small></div><div><span>EDUCATION</span><strong>NCIT</strong><small>First-year B.E. IT</small></div></div>
+          <div class="admin-table-head"><strong>FEATURED BUILDS</strong><a href="#projects">VIEW PROJECTS ↗</a></div>
+          {% for project in projects|slice:":2" %}<div class="admin-table-row"><span class="table-icon {% cycle 'icon-green' 'icon-coral' %}">{{ forloop.counter|stringformat:"02d" }}</span><span><strong>{{ project.title }}</strong><small>{{ project.get_category_display }} · {{ project.technologies }}</small></span><span class="table-status">PROJECT</span></div>{% endfor %}
+        </div>
+      </div>
+    </div>
+    <span class="hero-display-caption">3D SERVER / API / DATABASE VISUALIZATION</span>
+  </div>
+  <a class="scroll-cue" href="#about"><span></span> SCROLL TO EXPLORE</a>
+</section>
+
+<section class="identity-strip" aria-label="Development focus">
+  <div class="identity-wordmark"><b class="python-chip">Py</b><span>PYTHON</span><i></i><strong>django</strong><i></i><span class="rest-word">REST <small>FRAMEWORK</small></span></div>
+  <div class="identity-skills"><span>RESTful APIs</span><span>Django ORM</span><span>Authentication</span><span>Backend architecture</span></div>
+  <p>CLEAN CODE<br>BETTER APIS<br>REAL IMPACT</p>
+</section>
+
+<section class="about-section content-section" id="about" aria-labelledby="about-title">
+  <div class="section-index"><span>01</span><i></i> PROFILE</div>
+  <div class="about-grid">
+    <figure class="portrait-frame">
+      {% if profile.profile_photo %}<img class="portrait-photo" src="{{ profile.profile_photo.url }}" alt="Portrait of {{ profile.name }}" loading="lazy">{% else %}<div class="portrait-fallback" role="img" aria-label="Portrait placeholder for {{ profile.name }}"><span>PROFILE PHOTO</span></div>{% endif %}
+      <figcaption><span>BASED IN {{ profile.location|upper }}</span><span>PYTHON / DJANGO</span></figcaption>
+    </figure>
+    <div class="about-copy"><p class="eyebrow">ABOUT ME <span class="red-slash">/</span> BACKEND ENGINEERING</p><h2 id="about-title">Curious about systems.<br><span>Focused on useful software.</span></h2><p>{{ profile.bio }}</p><p>I’m studying {{ profile.education }} at {{ profile.institution }}. I’m interested in backend engineering, database design, authentication, API architecture, and exploring data and AI technologies as I grow.</p><div class="education-line"><span class="education-mark">NCIT</span><span><strong>{{ profile.education }}</strong><small>{{ profile.institution }} · {{ profile.study_year }}</small></span></div></div>
+  </div>
+</section>
+
+<section class="skills-section content-section" id="skills" aria-labelledby="skills-title">
+  <div class="section-index"><span>02</span><i></i> TOOLKIT</div>
+  <div class="section-heading"><div><p class="eyebrow">TOOLS I USE & LEARN</p><h2 id="skills-title">The stack<span class="red-dot">.</span></h2></div><p class="section-aside">No made-up percentages.<br>Just what I’m building with.</p></div>
+  <div class="skills-grid">
+    {% for category, items in skill_groups %}<section class="skill-group"><h3>{{ category }}</h3>{% for skill in items %}<div class="skill-row"><span>{{ skill.name }}</span><small>{{ skill.get_status_display }}</small></div>{% endfor %}</section>{% endfor %}
+  </div>
+</section>
+
+<section class="projects-section content-section" id="projects" aria-labelledby="projects-title">
+  <div class="section-index"><span>03</span><i></i> SELECTED WORK</div>
+  <div class="section-heading"><div><p class="eyebrow">BUILT WITH PYTHON</p><h2 id="projects-title">Projects<span class="red-dot">.</span></h2></div><p class="section-aside">Real projects, managed in Django Admin.<br>Details stay editable as the work grows.</p></div>
+  <div class="project-filters" role="group" aria-label="Filter projects">
+    <button type="button" class="is-active" data-project-filter="all">All</button><button type="button" data-project-filter="django">Django</button><button type="button" data-project-filter="api">REST API</button><button type="button" data-project-filter="python">Python</button><button type="button" data-project-filter="flask">Flask</button><button type="button" data-project-filter="web">Web apps</button>
+  </div>
+  <div class="project-grid">
+    {% for project in projects %}<article class="project-card" data-project-category="{{ project.category }}">
+      <a class="project-media" href="{{ project.get_absolute_url }}" aria-label="View {{ project.title }} details">
+        {% if project.thumbnail %}<img src="{{ project.thumbnail.url }}" alt="{{ project.image_alt|default:project.title }}" loading="lazy">{% else %}<div class="project-art project-art-{{ project.category }}"><span class="project-art-code">{{ project.get_category_display|upper }} / 0{{ forloop.counter }}</span><strong>{{ project.title }}</strong><span class="project-art-bottom">SAMYOG PANTHEE <i>↗</i></span></div>{% endif %}
+        {% if project.featured %}<span class="featured-flag">FEATURED</span>{% endif %}
+      </a>
+      <div class="project-card-body"><div class="project-card-title"><div><span class="project-number">0{{ forloop.counter }} / {{ project.get_category_display|upper }}</span><h3><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></h3></div><a class="project-open" href="{{ project.get_absolute_url }}" aria-label="Project details">↗</a></div><p>{{ project.summary }}</p><div class="project-tech">{% for technology in project.technology_list %}<span>{{ technology }}</span>{% endfor %}</div><div class="project-links">{% if project.github_url %}<a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>{% endif %}{% if project.live_url %}<a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer">Live demo ↗</a>{% endif %}<a href="{{ project.get_absolute_url }}">Details ↗</a></div></div>
+    </article>{% empty %}<p class="empty-state">Add projects in Django Admin to show them here.</p>{% endfor %}
+  </div>
+</section>
+
+<section class="architecture-section content-section" id="architecture" aria-labelledby="architecture-title">
+  <div class="section-index"><span>04</span><i></i> SYSTEMS</div>
+  <div class="section-heading"><div><p class="eyebrow">FROM REQUEST TO RESPONSE</p><h2 id="architecture-title">How I build<span class="red-dot">.</span></h2></div><p class="section-aside">A practical view of the Django<br>request lifecycle.</p></div>
+  <div class="architecture-flow" aria-label="Django request lifecycle">
+    <div>CLIENT <small>Browser / app</small></div><i>↓</i><div>HTTP REQUEST <small>Method · URL · data</small></div><i>↓</i><div>DJANGO URL ROUTER <small>Resolve path</small></div><i>↓</i><div>VIEW / VIEWSET <small>Request handling</small></div><i>↓</i><div>SERIALIZER <small>Validate · transform</small></div><i>↓</i><div>BUSINESS LOGIC <small>Rules · permissions</small></div><i>↓</i><div>DJANGO ORM <small>Models · queries</small></div><i>↓</i><div>DATABASE <small>SQLite · PostgreSQL ready</small></div><i>↓</i><div>JSON RESPONSE <small>Status · payload</small></div>
+  </div>
+  <div class="architecture-concepts"><span>MVT ARCHITECTURE</span><span>URL ROUTING</span><span>MODELS & ORM</span><span>AUTHENTICATION</span><span>PERMISSIONS</span><span>SERIALIZERS</span><span>CRUD</span></div>
+</section>
+
+<section class="api-section content-section" id="api" aria-labelledby="api-title">
+  <div class="section-index"><span>05</span><i></i> API DEVELOPMENT</div>
+  <div class="api-grid"><div><p class="eyebrow">DJANGO REST FRAMEWORK</p><h2 id="api-title">APIs with<br><span>clear contracts.</span></h2><p>I’m actively learning DRF concepts including serializers, viewsets, permissions, pagination, filtering, and validation. The public project endpoint below is live and read-only.</p><div class="api-concepts"><span>Serializers</span><span>ViewSets</span><span>Permissions</span><span>Authentication</span><span>Pagination</span><span>Filtering</span></div></div>
+    <div class="api-console"><div class="console-head"><span>PUBLIC PORTFOLIO API</span><span class="console-live"><i></i> LIVE</span></div><div class="endpoint-row"><b>GET</b><code>/api/projects/</code><a href="/api/projects/" target="_blank">↗</a></div><div class="endpoint-row"><b>GET</b><code>/api/projects/{slug}/</code><span class="endpoint-readonly">READ ONLY</span></div><pre><span class="code-muted">// Published portfolio projects</span>
+{
+  <span class="code-key">"results"</span>: [
+    { <span class="code-key">"title"</span>: <span class="code-value">"Django E-Commerce Platform"</span> }
+  ]
+}</pre><p class="console-note">Only implemented read endpoints are shown.</p></div></div>
+</section>
+
+<section class="journey-section content-section" id="journey" aria-labelledby="journey-title">
+  <div class="section-index"><span>06</span><i></i> DEVELOPER JOURNEY</div>
+  <div class="section-heading"><div><p class="eyebrow">LEARNING BY BUILDING</p><h2 id="journey-title">The journey<span class="red-dot">.</span></h2></div><p class="section-aside">Early in my career, building<br>the fundamentals one project at a time.</p></div>
+  <div class="journey-list">{% for item in journey %}<article class="journey-item"><span class="journey-period">{{ item.period }}</span><div><h3>{{ item.title }}</h3>{% if item.organization %}<p class="journey-org">{{ item.organization }}</p>{% endif %}<p>{{ item.description }}</p></div><span class="journey-index">0{{ forloop.counter }}</span></article>{% empty %}<p class="empty-state">Add journey milestones in Django Admin.</p>{% endfor %}</div>
+</section>
+
+<section class="github-section content-section" id="github" aria-labelledby="github-title">
+  <div class="github-copy"><p class="eyebrow">CODE, COMMITS, CONTINUOUS LEARNING</p><h2 id="github-title">Open source<br><span>starts here.</span></h2><p>Explore my repositories and follow along as I build my Python and Django skills. Repository activity and counts are not fabricated or cached here.</p><a class="button button-outline" href="{{ profile.github_url }}" target="_blank" rel="noopener noreferrer">Visit GitHub profile <span aria-hidden="true">↗</span></a></div><div class="github-art" aria-hidden="true"><span class="github-bracket">{</span><span class="github-code">git<br><b>commit</b><br>--message</span><span class="github-bracket">}</span><small>BUILD · LEARN · REPEAT</small></div>
+</section>
+
+<section class="journal-section content-section" id="journal" aria-labelledby="journal-title">
+  <div class="section-index"><span>07</span><i></i> DEVELOPER NOTES</div>
+  <div class="section-heading"><div><p class="eyebrow">LEARN IN PUBLIC</p><h2 id="journal-title">Journal<span class="red-dot">.</span></h2></div><a class="section-link" href="{% url 'blog_list' %}">All notes <span>↗</span></a></div>
+  <div class="journal-list">{% for post in posts %}<a class="journal-row" href="{{ post.get_absolute_url }}"><span>{{ post.get_category_display }}</span><strong>{{ post.title }}</strong><small>{{ post.reading_time_minutes }} MIN READ</small><b>↗</b></a>{% empty %}<p class="journal-empty">Developer notes will appear here when published from Django Admin.</p>{% endfor %}</div>
+</section>
+
+<section class="contact-section content-section" id="contact" aria-labelledby="contact-title">
+  <div class="section-index"><span>08</span><i></i> CONTACT</div>
+  <div class="contact-layout"><div class="contact-intro"><p class="eyebrow">INTERNSHIPS · JUNIOR ROLES · FREELANCE</p><h2 id="contact-title">Let’s build<br><span>something useful.</span></h2><p>Open to opportunities to learn, contribute, and grow as a backend developer.</p><div class="social-list">
+    <a href="{{ profile.github_url }}" target="_blank" rel="noopener noreferrer"><span>GitHub</span><b>↗</b></a><a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><b>↗</b></a><a href="{{ profile.facebook_url }}" target="_blank" rel="noopener noreferrer"><span>Facebook</span><b>↗</b></a><a href="{{ profile.instagram_url }}" target="_blank" rel="noopener noreferrer"><span>Instagram</span><b>↗</b></a><a href="mailto:{{ profile.email }}"><span>Email</span><b>↗</b></a>
+  </div></div>
+  <form class="contact-form" id="contact-form" data-channel="contact">{% csrf_token %}<p class="eyebrow">SEND A MESSAGE <span>↗</span></p><div class="form-grid"><label>Your name<input name="name" maxlength="80" autocomplete="name" required></label><label>Email address<input name="email" type="email" maxlength="254" autocomplete="email" required></label></div><label>Subject<input name="subject" maxlength="160" required></label><label>Message<textarea name="message" rows="5" maxlength="2000" required></textarea></label><label class="honeypot" aria-hidden="true">Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label><button class="button button-primary" type="submit">Send to Samyog <span aria-hidden="true">↗</span></button><p class="form-status" id="contact-status" aria-live="polite"></p></form></div>
+  <form class="quick-message-form" id="sms-form" data-channel="text">{% csrf_token %}<div><p class="eyebrow">TEXT-STYLE MESSAGE</p><strong>No email handy? Send a quick note to the admin inbox.</strong></div><label class="sr-only" for="sms-name">Your name</label><input id="sms-name" name="name" maxlength="80" placeholder="Your name" required><label class="sr-only" for="sms-message">Your message</label><input id="sms-message" name="message" maxlength="2000" placeholder="Write a message" required><label class="honeypot" aria-hidden="true">Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label><button type="submit" aria-label="Send text-style message">SEND ↗</button><p class="form-status" id="sms-status" aria-live="polite"></p></form>
+</section>
+{% endblock %}

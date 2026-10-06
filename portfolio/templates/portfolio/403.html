@@ -1,0 +1,3 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}403 — Access denied{% endblock %}
+{% block content %}<section class="content-section detail-page error-page"><p class="eyebrow">HTTP / 403</p><h1>Access denied<span class="red-dot">.</span></h1><p class="detail-summary">You don’t have permission to access this resource.</p><a class="button button-primary" href="{% url 'home' %}">Return home ↗</a></section>{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}{{ project.title }} — {{ profile.name }}{% endblock %}
+{% block description %}{{ project.summary }}{% endblock %}
+{% block content %}
+<article class="detail-page content-section">
+  <a class="back-link" href="{% url 'home' %}#projects">← BACK TO PROJECTS</a>
+  <p class="eyebrow">{{ project.get_category_display }} / PROJECT</p>
+  <h1>{{ project.title }}</h1><p class="detail-summary">{{ project.summary }}</p>
+  {% if project.thumbnail %}<img class="detail-hero-image" src="{{ project.thumbnail.url }}" alt="{{ project.image_alt|default:project.title }}">{% endif %}
+  <div class="detail-layout"><div class="detail-copy">{{ project.description|linebreaks }}{% if project.highlight_list %}<h2>Technical highlights</h2><ul>{% for highlight in project.highlight_list %}<li>{{ highlight }}</li>{% endfor %}</ul>{% endif %}{% for image in project.gallery.all %}<figure class="detail-gallery-image"><img src="{{ image.image.url }}" alt="{{ image.alt_text }}"><figcaption>{{ image.alt_text }}</figcaption></figure>{% endfor %}</div><aside class="detail-meta"><span>TECHNOLOGIES</span><div class="project-tech">{% for technology in project.technology_list %}<span>{{ technology }}</span>{% endfor %}</div>{% if project.github_url %}<a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a>{% endif %}{% if project.live_url %}<a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer">Live project ↗</a>{% endif %}</aside></div>
+</article>
+{% endblock %}
