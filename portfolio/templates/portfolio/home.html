@@ -48,7 +48,7 @@
   <div class="section-index"><span>01</span><i></i> PROFILE</div>
   <div class="about-grid">
     <figure class="portrait-frame">
-      {% if profile.profile_photo %}<img class="portrait-photo" src="{{ profile.profile_photo.url }}" alt="Portrait of {{ profile.name }}" loading="lazy">{% else %}<div class="portrait-fallback" role="img" aria-label="Portrait placeholder for {{ profile.name }}"><span>PROFILE PHOTO</span></div>{% endif %}
+      <img class="portrait-photo" src="{% static 'portfolio/images/profile-photo.jpg' %}" alt="Portrait of {{ profile.name }}" loading="lazy">
       <figcaption><span>BASED IN {{ profile.location|upper }}</span><span>PYTHON / DJANGO</span></figcaption>
     </figure>
     <div class="about-copy"><p class="eyebrow">ABOUT ME <span class="red-slash">/</span> BACKEND ENGINEERING</p><h2 id="about-title">Curious about systems.<br><span>Focused on useful software.</span></h2><p>{{ profile.bio }}</p><p>I’m studying {{ profile.education }} at {{ profile.institution }}. I’m interested in backend engineering, database design, authentication, API architecture, and exploring data and AI technologies as I grow.</p><div class="education-line"><span class="education-mark">NCIT</span><span><strong>{{ profile.education }}</strong><small>{{ profile.institution }} · {{ profile.study_year }}</small></span></div></div>
