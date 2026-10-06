@@ -3,3 +3,4 @@ djangorestframework>=3.16,<4
 Pillow>=11,<13
 psycopg[binary]>=3.2,<4
 python-dotenv>=1,<2
+whitenoise>=6.9,<7
