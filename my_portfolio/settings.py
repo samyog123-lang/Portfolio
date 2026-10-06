@@ -98,14 +98,17 @@ if os.environ.get('DJANGO_DB_ENGINE', 'sqlite').lower() == 'postgresql':
         }
     }
 else:
+    if os.environ.get('VERCEL') == '1':
+        sqlite_name = '/tmp/db.sqlite3'
+    else:
+        sqlite_name = BASE_DIR / 'db.sqlite3'
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': sqlite_name,
         }
     }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 

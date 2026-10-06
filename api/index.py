@@ -8,6 +8,19 @@ if BASE_DIR not in sys.path:
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "my_portfolio.settings")
 
+import django
+
+django.setup()
+
+# Initialize SQLite database on Vercel
+if os.environ.get("VERCEL") == "1":
+    from django.core.management import call_command
+
+    try:
+        call_command("migrate", interactive=False, verbosity=0)
+    except Exception as exc:
+        print(f"Migration warning: {exc}")
+
 from django.core.wsgi import get_wsgi_application
 
 app = get_wsgi_application()
