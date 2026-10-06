@@ -108,12 +108,7 @@ WSGI_APPLICATION = "my_portfolio.wsgi.application"
 # DATABASE
 # SQLITE ONLY
 # ============================================================
-if os.environ.get("VERCEL") or os.environ.get("NOW_REGION"):
-    # Vercel's filesystem is read-only except for /tmp.
-    sqlite_name = "/tmp/db.sqlite3"
-else:
-    # Local development
-    sqlite_name = BASE_DIR / "db.sqlite3"
+sqlite_name = BASE_DIR / "db.sqlite3"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
